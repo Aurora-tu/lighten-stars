@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>点亮星光 - 纪念英雄</title>
+  <title>你我皆是 续光之人</title>
   <style>
     * {
       margin: 0;
@@ -22,24 +22,99 @@
       padding: 20px;
     }
 
+    /* 电影颗粒感和划痕效果 */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E"),
+        linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+      background-size: 200px, 20px 20px, 20px 20px;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: overlay;
+      animation: film-scratch 15s linear infinite;
+    }
+
+    @keyframes film-scratch {
+      0% { background-position: 0 0, 0 0, 0 0; }
+      100% { background-position: 0 500px, 0 0, 0 0; }
+    }
+
     .container {
       max-width: 800px;
       width: 100%;
       text-align: center;
       padding: 30px;
       background: rgba(255, 255, 255, 0.05);
+      border: 20px solid transparent;
+      border-image: repeating-linear-gradient(90deg, 
+        #000 0, #000 10px, 
+        #fff 10px, #fff 20px) 20;
+      border-image-slice: 20;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 0 20px rgba(255, 206, 84, 0.2), inset 0 0 30px rgba(0, 0, 0, 0.9);
       backdrop-filter: blur(10px);
       position: relative;
       overflow: hidden;
+      animation: fade-in 2s ease-out;
+    }
+
+    /* 放映机光束效果 */
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 50%;
+      width: 100px;
+      height: 200%;
+      background: linear-gradient(to bottom, 
+        transparent, 
+        rgba(255, 206, 84, 0.2), 
+        rgba(255, 206, 84, 0.4), 
+        rgba(255, 206, 84, 0.2), 
+        transparent);
+      transform: translateX(-50%) perspective(500px) rotateX(80deg);
+      animation: projector-beam 8s ease-in-out infinite;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    @keyframes projector-beam {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes fade-in {
+      from { 
+        opacity: 0; 
+        transform: translateY(20px) scale(0.95);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1);
+      }
     }
 
     h1 {
       font-size: 2.5rem;
       margin-bottom: 20px;
-      color: #ffce54;
-      text-shadow: 0 0 10px rgba(255, 206, 84, 0.5);
+      background: linear-gradient(45deg, #ffce54, #ff9a44, #ffce54);
+      background-size: 200% auto;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0%, 100% { background-position: 0% center; }
+      50% { background-position: 200% center; }
     }
 
     .subtitle {
@@ -68,6 +143,27 @@
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 5px 15px rgba(255, 206, 84, 0.4);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .light-btn:hover:after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(rgba(255,255,255,0.2), transparent);
+      transform: rotate(45deg);
+      animation: flare 1.5s ease-in-out;
+    }
+
+    @keyframes flare {
+      0% { transform: rotate(45deg) translate(-100%, -100%); }
+      100% { transform: rotate(45deg) translate(100%, 100%); }
     }
 
     .light-btn:hover {
@@ -127,12 +223,6 @@
       }
     }
 
-    .message {
-      margin-top: 30px;
-      font-style: italic;
-      color: #a0a7ff;
-    }
-
     .btn-container {
       display: flex;
       justify-content: center;
@@ -158,21 +248,20 @@
 
 <body>
   <div class="container">
-    <h1>点亮星光 铭记英雄</h1>
-    <p class="subtitle">每一盏点亮的星灯，都是对英雄的缅怀与致敬<br>让我们一起用星光照亮历史的天空</p>
+    <h1>历史的片单 由你我续写</h1>
+    <p class="subtitle">他们是我们故事的开篇<br>我们是他们故事的续章</p>
+    <p class="subtitle">每一束光，都是一个未曾讲完的故事<br>每一次点亮，都是跨越时空的回响</p>
 
     <div class="counter">
       <span id="light-count">0</span>
-      <span style="font-size: 1.5rem;">盏灯已点亮</span>
+      <span style="font-size: 1.5rem;">束光穿透时空</span>
     </div>
 
-    <button class="light-btn" id="light-btn">我也要点亮一盏灯</button>
-
-   
+    <button class="light-btn" id="light-btn">为此片"续光"</button>
 
     <div class="btn-container">
       <button class="secondary-btn" onclick="location.href='https://www.chinavictory.com/kzgdata/clzl/vrzl/wlmzjfysjhp2025/#/content2'">云参观纪念馆</button>
-      <button class="secondary-btn" onclick="location.href='https://tv.cctv.com/2025/09/03/VIDEUlxeh8KFNhcWPfi2i2g0250903.shtml?spm=C55953877151.PjvMkmVd9ZhX.0.0'">观看阅兵回放</button>
+      <button class="secondary-btn" onclick="location.href='https://tv.cctv.com/2025/09/03/VIDEUlxeh8KFNhcWPfi2i2g0250903.shtml?spm=C55953877151.PjvMkmVd9ZhX.0.0'">观看九三阅兵</button>
     </div>
 
     <div class="night-sky" id="night-sky"></div>
@@ -182,16 +271,13 @@
     document.addEventListener('DOMContentLoaded', function() {
       const lightBtn = document.getElementById('light-btn');
       const lightCount = document.getElementById('light-count');
-      const participantNumber = document.getElementById('participant-number');
       const nightSky = document.getElementById('night-sky');
       
       // 初始化计数器
       let count = parseInt(localStorage.getItem('lightCount')) || 1244;
       
-      
       // 更新显示
       lightCount.textContent = count.toLocaleString();
-     
       
       // 创建背景星星
       createStars();
@@ -201,14 +287,11 @@
         // 增加计数
         count++;
         
-        
         // 保存到本地存储
         localStorage.setItem('lightCount', count);
-       
         
         // 更新显示
         lightCount.textContent = count.toLocaleString();
-       
         
         // 创建新的光点
         createNewLight();
