@@ -187,11 +187,11 @@
       
       // 初始化计数器
       let count = parseInt(localStorage.getItem('lightCount')) || 1244;
-      let participant = parseInt(localStorage.getItem('participant')) || 0;
+      
       
       // 更新显示
       lightCount.textContent = count.toLocaleString();
-      participantNumber.textContent = (participant + 1).toLocaleString();
+     
       
       // 创建背景星星
       createStars();
@@ -200,15 +200,15 @@
       lightBtn.addEventListener('click', function() {
         // 增加计数
         count++;
-        participant++;
+        
         
         // 保存到本地存储
         localStorage.setItem('lightCount', count);
-        localStorage.setItem('participant', participant);
+       
         
         // 更新显示
         lightCount.textContent = count.toLocaleString();
-        participantNumber.textContent = participant.toLocaleString();
+       
         
         // 创建新的光点
         createNewLight();
